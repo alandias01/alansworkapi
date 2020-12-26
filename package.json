@@ -4,9 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "ts-node-dev --respawn --transpileOnly -r dotenv/config --inspect -- ./src/index.ts",
-    "dev:debug": "ts-node-dev --respawn --transpileOnly -r dotenv/config --inspect-brk -- ./src/index.ts",
-    "prod": "rimraf ./dist/* && tsc && node ./dist/src/index.js"
+    "clean": "rimraf ./dist/*",
+    "build": "npm run clean && tsc",
+    "start": "npm run build && node dist/index.js",
+    "dev": "ts-node-dev --respawn -r dotenv/config --inspect -- ./src/index.ts",
+    "dev:debug": "ts-node-dev --respawn -r dotenv/config --inspect-brk -- ./src/index.ts"
   },
   "keywords": [],
   "author": "",
