@@ -25,13 +25,38 @@ const getLists: RequestHandler = async (req, res, next) => {
 };
 
 const getUserLists: RequestHandler = async (req, res, next) => {
-  const result = await userMongooseModel.find().exec().catch(next);
+  const result = await userMongooseModel.find(req.query).exec().catch(next);
   res.status(200).json(result);
+};
+
+const getUserListsDistinct: RequestHandler = (req, res, next) => {
+  if (!req.query.distinctfield) {
+    next(
+      new Error(
+        'No distinct field provided.  Add a query parameter. Ex. (?distinctfield=email)',
+      ),
+    );
+  }
+
+  const { distinctfield, ...filter } = req.query;
+
+  userMongooseModel.distinct(
+    req.query.distinctfield as string,
+    filter,
+    (dErr: any, dRes: any[]) => {
+      if (dErr) {
+        next(dErr);
+      } else {
+        res.status(200).json(dRes);
+      }
+    },
+  );
 };
 
 router.get('/getwords', getWords);
 router.get('/getwordsCount', getWordsCount);
 router.get('/getlists', getLists);
 router.get('/getuserlists', getUserLists);
+router.get('/getUserListsDistinct', getUserListsDistinct);
 
 export default router;
