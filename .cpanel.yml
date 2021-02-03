@@ -1,0 +1,6 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/brookl11/api/
+    - /bin/cp package.json $DEPLOYPATH
+    - /bin/cp -r dist/. $DEPLOYPATH
