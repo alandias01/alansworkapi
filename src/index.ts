@@ -20,7 +20,7 @@ app.use((req, res, next) => {
   next();
 });
 
-isProduction && app.use(cors());
+!isProduction && app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/api', wordRouter);
