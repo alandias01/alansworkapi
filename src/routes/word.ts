@@ -62,6 +62,7 @@ const getUserLists: RequestHandler = async (req, res, next) => {
   const query = { ...req.query, email };
   userMongooseModel
     .find(query)
+    .sort({ word: 1 })
     .exec()
     .then((result) => res.status(200).json(result))
     .catch(next);
